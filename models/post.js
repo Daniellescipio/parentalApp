@@ -15,11 +15,15 @@ const postSchema = new Schema(
             required:true
         },
         vote: {
-            type:Object,
-            required:true,
-            default:{
-                vote:0,
-                users:[]
+            vote:{
+                type: Number,
+                required : true,
+                default : 0
+            },
+            users:{
+                type:Array,
+                required: true,
+                default:[]
             }
         },
         comments: [{

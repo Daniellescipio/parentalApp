@@ -8,19 +8,22 @@ import {UserContext} from "./logic/UserProvider"
 import Header from "./public/Header"
 import QuestionPage from "./public/QuestionPage"
 import {UserDataProvider} from "./logic/useUserData"
+import {InteractionProvider} from "./logic/useInteraction"
     function App(){
         const {token} = useContext(UserContext)
         return(
             <div>
                 <Header/>
                 <Switch>
-                    <Route exact path = "/">{token? <Redirect to = "/homepage"/>:<Login/>}</Route>
+                    <InteractionProvider>
                     <UserDataProvider>
+                        <Route exact path = "/">{token? <Redirect to = "/homepage"/>:<Login/>}</Route>
                         <Route path = "/homepage">{!token? <Redirect to = "/"/>:<HomePage/>}</Route>
                         <Route path = "/adviceBoard"><AdviceBoard/></Route>
                         <Route path = "/postpage/:postId"><PostPage/></Route>
                         <Route path = "/questionpage/:questionId"><QuestionPage/></Route>
                     </UserDataProvider>
+                    </InteractionProvider>
                     
                 </Switch>      
             </div>

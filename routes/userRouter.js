@@ -89,6 +89,9 @@ userRouter.put("/:topicId/addQuestion",(req,res,next)=>{
 })
 //add a new comment to a post
 userRouter.put("/:postId/addComment",(req,res,next)=>{
+    console.log(req.body)
+    req.body.owner = req.params.postId
+    req.body.user = req.user
     const newResponse = new Response(req.body)
     User.findOneAndUpdate(
         {_id:req.user}, 
@@ -100,7 +103,7 @@ userRouter.put("/:postId/addComment",(req,res,next)=>{
             return next(err)
         }
         Post.findOneAndUpdate(
-            {_id:req.params.PostId}, 
+            {_id:req.params.postId}, 
             {$push:{comments:newResponse}},
             {new:true},
             (err)=>{
@@ -115,6 +118,8 @@ userRouter.put("/:postId/addComment",(req,res,next)=>{
 })
 //add a new answer to a question
 userRouter.put("/:questionId/addAnswer",(req,res,next)=>{
+    req.body.owner = req.params.questionId
+    req.body.user = req.user
     const newResponse = new Response(req.body)
     User.findOneAndUpdate(
         {_id:req.user}, 

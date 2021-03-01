@@ -37,7 +37,6 @@ function TopicSpecificProvider(props){
     function getTopicQuestions(topicId){
         userAxios.get(`/parental/questions/${topicId}/topics`)
         .then(response=>{
-            console.log(response.data)
             setQuestions(response.data)
         })
         .catch(err=>console.log(err.response.data.errMessage))

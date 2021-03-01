@@ -6,12 +6,15 @@ const responseSchema = new Schema(
             required:true
         },
         vote: {
-            type:Object,
-            required:true,
-            default:{
-                vote:0,
-                users:[]
-            }
+            vote:{
+                type: Number,
+                required : true,
+                default : 0
+            },
+            users:[{
+                id: String,
+                vote:Boolean
+            }]
         },
         user: {
             type:Schema.Types.ObjectId,
@@ -20,7 +23,7 @@ const responseSchema = new Schema(
         },
         owner:{
             type:Schema.Types.ObjectId,
-            ref:"post",
+            ref:"post"|| "question",
             required:true
 
         }

@@ -17,6 +17,7 @@ questionRouter.get("/",(req,res,next)=>{
 questionRouter.get("/:userId",(req,res,next)=>{
     Question.find({user:req.params.userId})
     .populate("topic")
+    .populate('user')
     .exec((err,questions)=>{
         if(err){
             res.status(500)
@@ -30,6 +31,7 @@ questionRouter.get("/:userId",(req,res,next)=>{
 questionRouter.get("/:topicId/topics",(req,res,next)=>{
     Question.find({topic:req.params.topicId})
     .populate("topic")
+    .populate('user')
     .exec((err,questions)=>{
         if(err){
             res.status(500)
@@ -44,6 +46,7 @@ questionRouter.get("/:questionId/question",(req,res,next)=>{
     Question.findOne({ _id: req.params.questionId})
           .populate('answers')
           .populate('topic')
+          .populate('user')
           .exec((err, question) => {
             if(err){
                 res.status(500)
@@ -72,17 +75,17 @@ questionRouter.get("/:questionId/question",(req,res,next)=>{
 //     })     
 // })
 //delete a question
-// questionRouter.delete("/:questionId",(req,res,next)=>{
-//     Question.remove({_id:req.params.questionId}, 
-//         err=>{ 
-//         if(err){
-//             res.status(500)
-//             return next(err)
-//         }
+questionRouter.delete("/:questionId",(req,res,next)=>{
+    Question.remove({_id:req.params.questionId}, 
+        err=>{ 
+        if(err){
+            res.status(500)
+            return next(err)
+        }
         
-//         res.status(200).send('Your question has been deleted')
-//     })
-// })
+        res.status(200).send('Your question has been deleted')
+    })
+})
 //edit a question
 questionRouter.put("/:questionId",(req,res,next)=>{
     Question.findOneAndUpdate(

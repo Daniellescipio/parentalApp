@@ -16,6 +16,7 @@ postRouter.get("/",(req,res,next)=>{
 postRouter.get("/:userId",(req,res,next)=>{
     Post.find({user:req.params.userId})
     .populate("topic")
+    .populate('user')
     .exec((err,posts)=>{
         if(err){
             res.status(500)
@@ -29,6 +30,7 @@ postRouter.get("/:userId",(req,res,next)=>{
 postRouter.get("/:topicId/topics",(req,res,next)=>{
     Post.find({topic:req.params.topicId})
     .populate("topic")
+    .populate('user')
     .exec((err,posts)=>{
         if(err){
             res.status(500)

@@ -8,7 +8,7 @@ function NewPost(){
     const [post, setPost] = useState({title:'', description: ''})
     const [question, setQuestion] = useState({question:'', description:''})
     //function for adding post and questions
-    const {addPost}=useContext(UserDataContext)
+    const {addPost, addQuestion}=useContext(UserDataContext)
     //grabbing topics from context
     const {topics, getAllTopics} = useContext(TopicSpecificContext)
     //grabs chosen topic from the dropdown menu and sends it to addPost(every post needs a topicID)
@@ -35,7 +35,12 @@ function NewPost(){
     }
 
     function submitNewPost(e){
-        addPost(chosenTopic,post)
+        if(questionOrPost=== 'post'){
+            addPost(chosenTopic,post)
+        }else{
+            addQuestion(chosenTopic, question)
+        }
+        
     }
     //style purposes/reusability
     const prompt = questionOrPost === 'post' ? `Share your advice!`: `Ask your question!`
@@ -44,7 +49,7 @@ function NewPost(){
     const titleOrQuestionValue = questionOrPost === 'post'? post.title :question.question 
     //plugs topics into dropDown menu
     const topicMenu = topics.map(topic=>{
-        return <option value = {topic._id}>{topic.topic}</option>
+        return <option key = {topic._id}value = {topic._id}>{topic.topic}</option>
     })
 
     return(
