@@ -1,22 +1,23 @@
 import React, {useContext, useEffect, useState} from "react"
-import {InteractionContext} from "./useInteraction"
-import {UserContext} from "./UserProvider"
-import ChangeVote from "./useVote"
+import {InteractionContext} from "../logic/InteractionContext"
+import {LoginContext} from "../logic/LoginContext"
+import ChangeVote from "../logic/useVote"
 
 function ResponseSection(props){ 
     //get's user info from context to allow deleting
-    const {user} = useContext(UserContext)
+    const {user} = useContext(LoginContext)
     //response form
     const [response, setResponse] = useState({response : ''})
     //post or question body where responses will be instatiated
     const responseOwner = props.responseOwner
-    const {vote, voted, idForVoting, voteFunction} = ChangeVote()
+    console.log(responseOwner)
+    const {vote, voted, subject, voteFunction, toggleVote} = ChangeVote()
     //response data and functions from context
     const {voteOnResponse, getResponses, addResponses, deleteResponses, responses} = useContext(InteractionContext)
     //decides between post and question for reusability
-    const answerOrComment = responseOwner.comment? 'Answer': 'Comment'
+    const answerOrComment = responseOwner.comment? 'Comment': 'Answer'
     const postOrQuestion = responseOwner.comment? 'post': 'question'
-//use effect to display responses and update when new responses are added
+    //use effect to display responses and update when new responses are added
 
     useEffect(()=>{
         getResponses(responseOwner._id, postOrQuestion)
@@ -26,7 +27,8 @@ function ResponseSection(props){
 
     useEffect(()=>{
         if(voted){
-            voteOnResponse(idForVoting, vote)
+            voteOnResponse(subject._id, vote)
+            toggleVote()
         }  
     // eslint-disable-next-line
     },[voted])
@@ -41,24 +43,20 @@ function ResponseSection(props){
                     <p>{response.vote.vote}</p>
                     <p>{response.user.username}</p>
                     <div>
-                        <div>
-                            <button 
-                            className = 'upVote'
-                            onClick = {()=>{voteFunction(true, response)}}
-                            >SMILEYFACE</button>
-                            <button className = 'downVote'
-                            onClick = {()=>{voteFunction(false, response)}}
-                            >FROWNEYFACE</button>
-                            <button onClick = {()=>
-                            {
-                                deleteResponses(responseOwner._id, response._id, answerOrComment)
-                                getResponses(responseOwner._id, postOrQuestion)}
-                            }
-                            >delete</button>
-                        </div> 
-                    
-                    </div>
-                   
+                        <button 
+                        className = 'upVote'
+                        onClick = {()=>{voteFunction(true, response)}}
+                        >SMILEYFACE</button>
+                        <button className = 'downVote'
+                        onClick = {()=>{voteFunction(false, response)}}
+                        >FROWNEYFACE</button>
+                        <button onClick = {()=>
+                        {
+                            deleteResponses(responseOwner._id, response._id, answerOrComment)
+                            getResponses(responseOwner._id, postOrQuestion)}
+                        }
+                        >delete</button>
+                    </div>  
                 </div>
             )
         }else{
@@ -83,16 +81,19 @@ function ResponseSection(props){
         setResponse({response: e.target.value})
     }
     return(
-        <div>
+        <div className = 'responses'>
             {responseList}
-            <p>Responde Here:</p>
-            <textarea
-            name = 'response'
-            type = 'text'
-            onChange = {handleChange}
-            value = {response.response}
-            />
-            <button onClick = {()=>{addResponses(responseOwner._id, response, answerOrComment)}} >Respond</button>
+            <div className = 'responseBox'>
+                <p>Responde Here:</p>
+                <textarea
+                name = 'response'
+                type = 'text'
+                onChange = {handleChange}
+                value = {response.response}
+                />
+                <button onClick = {()=>{addResponses(responseOwner._id, response, answerOrComment)}} >Respond</button>
+            </div>
+            
         </div>
     )
 }

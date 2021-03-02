@@ -256,7 +256,7 @@ userRouter.delete("/delete",(req,res,next)=>{
     })
 })
 //edit a user
-userRouter.put("/:update",(req,res,next)=>{
+userRouter.put("/update",(req,res,next)=>{
     User.findOneAndUpdate(
         {_id:req.user},
         req.body,

@@ -1,7 +1,7 @@
 import React from "react"
 import { useState, useContext, useEffect } from "react/cjs/react.development"
-import {TopicSpecificContext} from "../logic/useTopicSpecificData"
-import {UserDataContext} from "../logic/useUserData"
+import {TopicSpecificContext} from "../logic/TopicContext"
+import {UserDataContext} from "../logic/UserDataContext"
 
 function NewPost(){
     //display user activity
@@ -12,7 +12,7 @@ function NewPost(){
     //grabbing topics from context
     const {topics, getAllTopics} = useContext(TopicSpecificContext)
     //grabs chosen topic from the dropdown menu and sends it to addPost(every post needs a topicID)
-    const [chosenTopic, setChosenTopic] = useState('6032d4afa9ae8a0d2c58a586')
+    const [chosenTopic, setChosenTopic] = useState('6032d4baa9ae8a0d2c58a587')
     //For style purposes/reusability
     const [questionOrPost, setQuestionOrPost] = useState('post')
 
@@ -20,7 +20,7 @@ function NewPost(){
         getAllTopics()
         // eslint-disable-next-line
     },[])
-
+    //tracks form/state text inputs
     function handleChange(e){
         const {name, value} = e.target
         if(questionOrPost === 'post'){
@@ -29,11 +29,12 @@ function NewPost(){
             setQuestion(prev=>({...prev, [name]:value}))
         }  
     }
+    //tracks radio button and dropdown menu
     function handleOtherChange(e){
         const {checked, name, type, value} = e.target
         type === 'radio' ? setQuestionOrPost(()=>checked&&name) : setChosenTopic(value)  
     }
-
+//add a post or function depending on user input
     function submitNewPost(e){
         if(questionOrPost=== 'post'){
             addPost(chosenTopic,post)
@@ -51,10 +52,9 @@ function NewPost(){
     const topicMenu = topics.map(topic=>{
         return <option key = {topic._id}value = {topic._id}>{topic.topic}</option>
     })
-
     return(
         <div>
-            <form>
+            <form className = 'addPost'>
             <label>Topics</label>
                 <select 
                     value={topics.topic}
@@ -65,22 +65,24 @@ function NewPost(){
                 </select>
                 <p>Would you like to ask a question or post some advice</p>
                 <br/>
-                <p>Question</p>
-                <input
-                name = 'question' 
-                value= 'question'
-                type = 'radio'
-                checked = {questionOrPost === 'question'}
-                onChange = {handleOtherChange}
-                />
-                <p>Post</p>
-                <input
-                name = 'post'
-                value= 'post'
-                type = 'radio'
-                checked = {questionOrPost === 'post'}
-                onChange = {handleOtherChange}
-                />
+                <div className = 'radio'>
+                    <label>Question</label>
+                    <input
+                    name = 'question' 
+                    value= 'question'
+                    type = 'radio'
+                    checked = {questionOrPost === 'question'}
+                    onChange = {handleOtherChange}
+                    />
+                    <label>Post</label>
+                    <input
+                    name = 'post'
+                    value= 'post'
+                    type = 'radio'
+                    checked = {questionOrPost === 'post'}
+                    onChange = {handleOtherChange}
+                    />
+                </div>
                 <br/>
                 <p>{titleOrQuestion}</p>
                 <input
@@ -99,6 +101,7 @@ function NewPost(){
                 onChange = {handleChange}
                 required
                 />
+                <br/>
                 <button onClick = {submitNewPost}>{prompt}</button> 
             </form>
         </div>

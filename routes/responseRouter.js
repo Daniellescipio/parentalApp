@@ -93,7 +93,6 @@ responseRouter.put("/:responseId",(req,res,next)=>{
 })
 //vote on a response
 responseRouter.put("/:responseId/vote",(req,res,next)=>{
-    console.log(req.body)
     Response.findOneAndUpdate(
         {_id:req.params.responseId},
         {$set:{vote:req.body}},
@@ -103,7 +102,6 @@ responseRouter.put("/:responseId/vote",(req,res,next)=>{
             res.status(500)
             return next(err)
         }
-        console.log(response)
         res.status(200).send(response)
     })
 })

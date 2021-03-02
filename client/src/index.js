@@ -1,17 +1,17 @@
 import React from "react"
 import ReactDom from "react-dom"
 import App from "./App"
-import {UserProvider} from "./logic/UserProvider"
-import {TopicSpecificProvider} from "./logic/useTopicSpecificData"
-//import {UserProvider} from "./logic/userContext.js"
+import {LoginProvider} from "./logic/LoginContext"
+import {TopicSpecificProvider} from "./logic/TopicContext"
+//import {LoginProvider} from "./logic/userContext.js"
 import {BrowserRouter as Router} from "react-router-dom"
 import "./style.css"
 ReactDom.render(
 <Router>
     <TopicSpecificProvider>
-        <UserProvider>
+        <LoginProvider>
             <App/>
-        </UserProvider>
+        </LoginProvider>
     </TopicSpecificProvider>      
 </Router>,
 document.getElementById("root"))

@@ -10,7 +10,6 @@ userAxios.interceptors.request.use(config=>{
 })
 function InteractionProvider(props){
     const [responses, setResponses] = useState([])
-    const [XForVote, setXForVote] = useState(false)
 
     function getResponses(id, postOrQuestion){
         userAxios.get(`/parental/responses/${id}/${postOrQuestion}`)
@@ -36,20 +35,16 @@ function InteractionProvider(props){
                     return response
                 }
             })
+            console.log(updatedResponses)
          userAxios.put(`/parental/responses/${responseId}/vote`, newVote)
          .then(response=>{setResponses(updatedResponses)})
+         .catch(err=>console.log(err.response.data.errMessage))
      }
-
-     function getAResponse(responseId){
-         userAxios.get(`/parental/responses/${responseId}`)
-         .then(response=>setXForVote(response.data))
-     }
-     function getAPost(responseId){
-        userAxios.get(`/parental/posts/${responseId}/post`)
-        .then(response=>setXForVote(response.data))
-     }
+     function voteOnAPost(postId, newVote){
+     userAxios.put(`/parental/posts/${postId}/vote`, newVote)}
+     
     return(
-        <InteractionContext.Provider value={{voteOnResponse, getResponses, addResponses, deleteResponses, getAResponse, getAPost, responses, XForVote}}>
+        <InteractionContext.Provider value={{voteOnResponse, getResponses, addResponses, deleteResponses, responses, voteOnAPost}}>
             {props.children}
         </InteractionContext.Provider>
     )

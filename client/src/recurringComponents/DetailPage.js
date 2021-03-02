@@ -1,18 +1,17 @@
 import React, {useContext, useEffect, useState} from "react"
 import {useHistory} from "react-router-dom"
-import {UserDataContext} from "../logic/useUserData"
-import ResponseSection from "./ResponseSection"
-import {UserContext} from "./UserProvider"
+import {UserDataContext} from "../logic/UserDataContext"
+import ResponseSection from "../recurringComponents/ResponseSection"
+import {LoginContext} from "../logic/LoginContext"
 
 
 function DetailPage(props){
     //pulls user from contest to allow settings to diplay
-    const {user} = useContext(UserContext)
+    const {user} = useContext(LoginContext)
     //decides between post or question for reusability
     let type = props.type ==='post' ? true: false
     //gets the entire post or question body from the link route
-    const location = props.location
-    const [postOrQuestion, setPostOrQuestion] = useState(location.state)
+    const [postOrQuestion, setPostOrQuestion] = useState(props.location)
     //to redirect when a user deletes a post
     const history = useHistory()
     //pulls user specific data nad functions from context
@@ -100,16 +99,17 @@ function DetailPage(props){
             </div>
             <div>{
             type?
-                <div className = 'post'>
+                <div className = 'postPage'>
                     <h1 className = 'title'>{postOrQuestion.title}</h1>
                     <h3 className = 'author'>written by :{postOrQuestion.user.username}</h3>
-                    <h3 className = 'descip'>{postOrQuestion.description}</h3>
+                    <h3 className = 'descrip'>{postOrQuestion.description}</h3>
+                    <h3>Current Vote : {postOrQuestion.vote.vote}</h3>
                 </div>
                  :
-                <div className = 'question'>
+                <div className = 'questionPage'>
                     <h1 className = 'title'>{postOrQuestion.question}</h1>
                     <h3 className = 'author'>written by :{postOrQuestion.user.username}</h3>
-                    <h3 className = 'descip'>{postOrQuestion.description}</h3>
+                    <h3 className = 'descrip'>{postOrQuestion.description}</h3>
                 </div>
             }
             </div>

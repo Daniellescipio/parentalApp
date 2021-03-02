@@ -1,3 +1,28 @@
 .hidden{
     display:none
 }
+.header{
+    margin: auto;
+    padding: 10px;
+}
+.header > button{
+    margin :30px;
+}
+
+body{
+    text-align: center;
+}
+p{
+    margin:0
+}
+.addPost{
+    border: 2px solid black;
+    width : 500px;
+    margin:auto
+}
+.list{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 600px;
+    margin: auto;
+}

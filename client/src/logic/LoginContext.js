@@ -1,8 +1,13 @@
 import axios from "axios"
 import React, {useState} from "react"
-const UserContext = React.createContext()
-
-function UserProvider(props){
+const LoginContext = React.createContext()
+const userAxios = axios.create()
+userAxios.interceptors.request.use(config=>{
+    const token = localStorage.getItem('token')
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+})
+function LoginProvider(props){
     const [userInfo, setUserInfo] = useState(
         {
             token:localStorage.getItem('token')||'',
@@ -22,6 +27,16 @@ function UserProvider(props){
         })
         .catch(err=>console.log(err.response.data.errMessage))
     }
+    function editUser(edits){
+        userAxios.put(`/parental/users/update/`, edits)
+        .then(response=>{
+            console.log(response.data)
+            setUserInfo((prev)=>
+                ({...prev,
+                    user:response.data
+            }))
+        })
+    }
     function logout(){
         localStorage.clear()
         setUserInfo({})
@@ -29,10 +44,10 @@ function UserProvider(props){
 
  
     return(
-        <UserContext.Provider value={{...userInfo, getIn, logout}}>
+        <LoginContext.Provider value={{...userInfo, getIn, logout, editUser}}>
             {props.children}
-        </UserContext.Provider>
+        </LoginContext.Provider>
     )
 }
 
-export {UserProvider, UserContext}
+export {LoginProvider, LoginContext}

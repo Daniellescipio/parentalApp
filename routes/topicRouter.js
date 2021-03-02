@@ -78,13 +78,13 @@ topicRouter.post("/addTopic",(req,res,next)=>{
 // })
 //delete a topic
 topicRouter.delete("/:topicId",(req,res,next)=>{
-    Topic.findOneAndDelete({_id:req.params.postId}, 
+    Topic.findOneAndDelete({_id:req.params.topicId}, 
         err=>{ 
         if(err){
             res.status(500)
             return next(err)
         }
-        res.status(200).send('Your Post has been deleted')
+        res.status(200).send('Your topic has been deleted')
     })
 })
 //switch post from one topic to another

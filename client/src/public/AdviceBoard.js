@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from "react"
-import ListComponent from "../logic/ListComponent"
-import {TopicSpecificContext} from "../logic/useTopicSpecificData"
+import ListComponent from "../recurringComponents/ListComponent"
+import {TopicSpecificContext} from "../logic/TopicContext"
 
 function AdviceBoard(){
     //gets topic specific info and fucntion from context
     const myContext = useContext(TopicSpecificContext)
     const {posts, topics, questions, getTopicQuestions, getAllTopics, getTopicPosts} = myContext
     //initial display will always be pregnancy topics
-    const [chosenTopic, setChosenTopic] = useState('6032d4afa9ae8a0d2c58a586')
+    const [chosenTopic, setChosenTopic] = useState('6032d4baa9ae8a0d2c58a587')
     //plugs topics from context into dropdown menu
     const topicMenu = topics.map(topic=>{
         return <option value = {topic._id}>{topic.topic}</option>
@@ -24,6 +24,7 @@ function AdviceBoard(){
         getTopicQuestions(chosenTopic)
         //eslint-disable-next-line
     },[chosenTopic])
+    console.log(questions)
     
     return(
         <div>

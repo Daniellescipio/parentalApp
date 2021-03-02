@@ -84,12 +84,12 @@ postRouter.delete("/:postId",(req,res,next)=>{
     })
 })
 //vote on  apost
-postRouter.put("/:userId/:postId/vote",(req,res,next)=>{
+postRouter.put("/:postId/vote",(req,res,next)=>{
     Post.findOneAndUpdate(
         {_id:req.params.postId},
-        req.body,
+        {$set:{vote:req.body}},
         {new:true},
-         (err, post)=>{
+        (err, post)=>{
         if(err){
             res.status(500)
             return next(err)
@@ -97,6 +97,7 @@ postRouter.put("/:userId/:postId/vote",(req,res,next)=>{
         res.status(200).send(post)
     })
 })
+
 //edit a post
 postRouter.put("/:postId",(req,res,next)=>{
     console.log(req.body)

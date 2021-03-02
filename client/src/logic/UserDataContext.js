@@ -95,7 +95,7 @@ function UserDataProvider(props){
 
     return(
         <UserDataContext.Provider value={
-            {
+            {   
                 getUserPosts, 
                 getUserQuestions, 
                 addPost, 

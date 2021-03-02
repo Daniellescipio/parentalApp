@@ -4,13 +4,14 @@ import PostPage from "./public/PostPage"
 import AdviceBoard from "./public/AdviceBoard"
 import HomePage from "./userOnly/Homepage"
 import {Switch, Route, Redirect} from "react-router-dom"
-import {UserContext} from "./logic/UserProvider"
+import {LoginContext} from "./logic/LoginContext"
 import Header from "./public/Header"
 import QuestionPage from "./public/QuestionPage"
-import {UserDataProvider} from "./logic/useUserData"
-import {InteractionProvider} from "./logic/useInteraction"
+import {UserDataProvider} from "./logic/UserDataContext"
+import {InteractionProvider} from "./logic/InteractionContext"
+import ChangeUserInfo from "./userOnly/ChangeUserInfo"
     function App(){
-        const {token} = useContext(UserContext)
+        const {token} = useContext(LoginContext)
         return(
             <div>
                 <Header/>
@@ -22,6 +23,7 @@ import {InteractionProvider} from "./logic/useInteraction"
                         <Route path = "/adviceBoard"><AdviceBoard/></Route>
                         <Route path = "/postpage/:postId"><PostPage/></Route>
                         <Route path = "/questionpage/:questionId"><QuestionPage/></Route>
+                        <Route path = "/changecredentials"><ChangeUserInfo/></Route>         
                     </UserDataProvider>
                     </InteractionProvider>
                     

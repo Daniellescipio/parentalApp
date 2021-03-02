@@ -6,6 +6,7 @@ function ListComponent(props){
     const postArray = props.posts
     const questionsArray = props.questions  
     const responsesArray = props.responses
+    postArray.sort((postOne, postTwo)=>postTwo.vote.vote-postOne.vote.vote)
     //creates a list of post/questions/responses to display
     const postList = postArray.map(post=>{
       return  (
@@ -19,6 +20,7 @@ function ListComponent(props){
         )          
 })
     const questionList = questionsArray.map(question=>{
+        console.log(question)
        return (
             <div key = {question._id}>
                 <Link to = {{pathname: `/questionpage/${question._id}`, state:question}}>
@@ -42,17 +44,35 @@ function ListComponent(props){
     //public or user view
     if(props.user){
         return(
-            <div>
-                {postList}
-                {questionList}
-                {responseList}
+            <div className = 'list'>
+                
+                <div className = 'postlist' >
+                    <h1>Your Previous Post</h1>
+                    {postList}
+                </div>
+                <div className = 'questionlist'> 
+                    <h1>Your Previous Questions</h1>
+                    {questionList}
+                </div>
+                <div className = 'responselist'>
+                    {responseList}
+                </div>
+                
+                
+                
             </div>
         )
     }else{
         return(
-            <div>
-                {postList}
-                {questionList}
+            <div className = 'list'>
+                <div className = 'postlist' >
+                    <h1>Posts</h1>
+                    {postList}
+                </div>
+                <div className = 'questionlist'> 
+                    <h1>Questions</h1>
+                    {questionList}
+                </div>
             </div>
         )
 
