@@ -4,7 +4,6 @@ import { useContext } from "react/cjs/react.development"
 import {LoginContext} from "../logic/LoginContext"
 function Header(){
     const {token} = useContext(LoginContext)
-    console.log(token)
     function logInFirst(){
         alert `You need to Log In`
     }

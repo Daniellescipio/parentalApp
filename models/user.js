@@ -8,6 +8,9 @@ const userSchema = new Schema(
             lowercase: true, 
             unique:true,
         }, 
+        topTopics: {
+            type: Array,
+        }, 
         password : {
             type:String, 
             required:true

@@ -4,7 +4,11 @@ const Post = require('../models/post')
 const Response = require('../models/response')
 //get all posts
 postRouter.get("/",(req,res,next)=>{
-    Post.find((err,posts)=>{
+    Post.find()
+    .populate('topic')
+    .populate('comments')
+    .populate('user')
+    .exec((err,posts)=>{
         if(err){
             res.status(500)
             return next(err)

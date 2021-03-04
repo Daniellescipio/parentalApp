@@ -5,12 +5,12 @@ import {TopicSpecificContext} from "../logic/TopicContext"
 function AdviceBoard(){
     //gets topic specific info and fucntion from context
     const myContext = useContext(TopicSpecificContext)
-    const {posts, topics, questions, getTopicQuestions, getAllTopics, getTopicPosts} = myContext
+    const {posts, topics, questions, allPosts, allQuestions, getAllPosts, getAllQuestions, getTopicQuestions, getAllTopics, getTopicPosts} = myContext
     //initial display will always be pregnancy topics
-    const [chosenTopic, setChosenTopic] = useState('6032d4baa9ae8a0d2c58a587')
+    const [chosenTopic, setChosenTopic] = useState('all')
     //plugs topics from context into dropdown menu
     const topicMenu = topics.map(topic=>{
-        return <option value = {topic._id}>{topic.topic}</option>
+        return <option key = {topic._id} value = {topic._id}>{topic.topic}</option>
     })
     //track text inputs
     function handleDropDown(e){
@@ -20,22 +20,27 @@ function AdviceBoard(){
     //loads data from context
     useEffect(()=>{
         getAllTopics()
-        getTopicPosts(chosenTopic)
-        getTopicQuestions(chosenTopic)
+        if(chosenTopic !== 'all'){
+            getTopicPosts(chosenTopic)
+            getTopicQuestions(chosenTopic)
+        }else{
+            getAllPosts()
+            getAllQuestions()
+        }
         //eslint-disable-next-line
     },[chosenTopic])
-    console.log(questions)
     
     return(
-        <div>
+        <div className = 'adviceboard'>
             <label>Topics</label>
             <select 
                 value={topics.topic}
                 onChange={handleDropDown}
                 name="topic">
+                <option value = 'all'>All</option>
                 {topicMenu}
             </select>
-            {<ListComponent posts ={posts} questions ={questions} responses = {[]} user = {false}/>}
+            {<ListComponent posts ={chosenTopic !== 'all'? posts: allPosts} questions ={chosenTopic !== 'all'? questions: allQuestions} responses = {[]} user = {false}/>}
         </div>
     )
 }

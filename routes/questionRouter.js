@@ -5,7 +5,11 @@ const Response = require('../models/response')
 
 //get all questions (admin only)
 questionRouter.get("/",(req,res,next)=>{
-    Question.find((err,questions)=>{
+    Question.find()
+    .populate('topic')
+    .populate('answers')
+    .populate('user')
+    .exec((err,questions)=>{
         if(err){
             res.status(500)
             return next(err)
@@ -89,10 +93,13 @@ questionRouter.delete("/:questionId",(req,res,next)=>{
 //edit a question
 questionRouter.put("/:questionId",(req,res,next)=>{
     Question.findOneAndUpdate(
-        {_id:req.params.question, user:req.user},
+        {_id:req.params.questionId, user:req.user},
         req.body,
-        {new:true},
-        (err,updatedQuestion)=>{
+        {new:true})
+        .populate('topic')
+        .populate('answers')
+        .populate('user')
+        .exec((err,updatedQuestion)=>{
             if(err){
                 res.status(500)
                 return next(err)

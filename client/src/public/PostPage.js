@@ -33,8 +33,6 @@ function PostPage(){
         }  
     },[subject])
 
-    console.log(subject)
-    
     return(
         <div className = 'post'>
             <DetailPage location = {post} type = 'post'/>
@@ -42,10 +40,10 @@ function PostPage(){
                         <button 
                         className = 'upVote'
                         onClick = {()=>{voteFunction(true, post)}}
-                        >SMILEYFACE</button>
+                        ></button>
                         <button className = 'downVote'
                         onClick = {()=>{voteFunction(false, post)}}
-                        >FROWNEYFACE</button>
+                        ></button>
                 </div>  
         </div>
 

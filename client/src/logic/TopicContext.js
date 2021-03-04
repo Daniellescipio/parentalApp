@@ -14,13 +14,32 @@ function TopicSpecificProvider(props){
     const [posts, setPosts] = useState([])
     const [questions, setQuestions] = useState ([])
     const [topics, setTopics]= useState([])
-
+    const [allPosts, setAllPosts] = useState([])
+    const [allQuestions, setAllQuestions]= useState([])
+    
     function getAllTopics(){
         setLoading(true)
         userAxios.get(`/parental/topics/`)
         .then(response=>{
-            console.log(response.data)
             setTopics(response.data)
+            setLoading(false)
+        })
+        .catch(err=>console.log(err.response.data.errMessage))
+    }
+    function getAllPosts(){
+        setLoading(true)
+        userAxios.get(`/parental/posts/`)
+        .then(response=>{
+            setAllPosts(response.data)
+            setLoading(false)
+        })
+        .catch(err=>console.log(err.response.data.errMessage))
+    }
+    function getAllQuestions(){
+        setLoading(true)
+        userAxios.get(`/parental/questions/`)
+        .then(response=>{
+            setAllQuestions(response.data)
             setLoading(false)
         })
         .catch(err=>console.log(err.response.data.errMessage))
@@ -43,7 +62,7 @@ function TopicSpecificProvider(props){
     }
     
     return(
-        <TopicSpecificContext.Provider value={{loading, posts, topics, questions, getTopicQuestions, getAllTopics, getTopicPosts}}>
+        <TopicSpecificContext.Provider value={{loading, posts, topics, questions, allQuestions, allPosts, getAllQuestions, getAllPosts, getTopicQuestions, getAllTopics, getTopicPosts}}>
             {props.children}
         </TopicSpecificContext.Provider>
     )

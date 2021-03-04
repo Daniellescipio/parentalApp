@@ -10,15 +10,14 @@ function ResponseSection(props){
     const [response, setResponse] = useState({response : ''})
     //post or question body where responses will be instatiated
     const responseOwner = props.responseOwner
-    console.log(responseOwner)
     const {vote, voted, subject, voteFunction, toggleVote} = ChangeVote()
     //response data and functions from context
     const {voteOnResponse, getResponses, addResponses, deleteResponses, responses} = useContext(InteractionContext)
     //decides between post and question for reusability
     const answerOrComment = responseOwner.comment? 'Comment': 'Answer'
     const postOrQuestion = responseOwner.comment? 'post': 'question'
+    
     //use effect to display responses and update when new responses are added
-
     useEffect(()=>{
         getResponses(responseOwner._id, postOrQuestion)
         setResponse({response:''})
@@ -38,18 +37,18 @@ function ResponseSection(props){
         if(user._id ===responseOwner.user._id||user._id===response.user._id){
             console.log()
             return(
-                <div key = {response._id}>
-                    <p>{response.response}</p>
-                    <p>{response.vote.vote}</p>
-                    <p>{response.user.username}</p>
-                    <div>
+                <div key = {response._id} className = 'responseBox'>
+                    <p className = 'response'>{response.response}</p>
+                    <p className = 'vote'>current vote: {response.vote.vote}</p>
+                    <p className = 'voteAuthor'>written by: {response.user.username}</p>
+                    <div className = 'responseVote'>
                         <button 
-                        className = 'upVote'
+                        className = 'upVote button'
                         onClick = {()=>{voteFunction(true, response)}}
-                        >SMILEYFACE</button>
-                        <button className = 'downVote'
+                        ></button>
+                        <button className = 'downVote button'
                         onClick = {()=>{voteFunction(false, response)}}
-                        >FROWNEYFACE</button>
+                        ></button>
                         <button onClick = {()=>
                         {
                             deleteResponses(responseOwner._id, response._id, answerOrComment)
@@ -61,16 +60,19 @@ function ResponseSection(props){
             )
         }else{
             return(
-                <div key = {response._id}>
-                    <p>{response.response}</p>
-                    <p>{response.vote.vote}</p>
-                    <p>{response.user.username}</p>
-                    <button 
-                    className = 'upVote'
-                    onClick = {()=>{voteFunction(true, response)}}
-                    >SMILEYFACE</button>
-                    <button className = 'downVote'
-                    onClick = {()=>{voteFunction(false, response)}}>FROWNEYFACE</button>
+                <div key = {response._id} className = 'responseBox'>
+                    <p className = 'response'>{response.response}</p>
+                    <p className = 'vote'>current vote: {response.vote.vote}</p>
+                    <p className = 'voteAuthor'>written by: {response.user.username}</p>
+                    <div className = 'responseVote'>
+                        <button 
+                        className = 'upVote button'
+                        onClick = {()=>{voteFunction(true, response)}}
+                        ></button>
+                        <button className = 'downVote button'
+                        onClick = {()=>{voteFunction(false, response)}}
+                        ></button>
+                    </div>  
                 </div>
             )
         }
@@ -83,7 +85,7 @@ function ResponseSection(props){
     return(
         <div className = 'responses'>
             {responseList}
-            <div className = 'responseBox'>
+            <div className = 'respond'>
                 <p>Responde Here:</p>
                 <textarea
                 name = 'response'

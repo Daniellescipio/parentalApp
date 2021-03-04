@@ -20,7 +20,6 @@ function ListComponent(props){
         )          
 })
     const questionList = questionsArray.map(question=>{
-        console.log(question)
        return (
             <div key = {question._id}>
                 <Link to = {{pathname: `/questionpage/${question._id}`, state:question}}>

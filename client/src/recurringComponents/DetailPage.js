@@ -35,7 +35,7 @@ function DetailPage(props){
         }
         // eslint-disable-next-line 
     },[editedPost, editedQuestion])
-    console.log('hello')
+    console.log(postOrQuestion)
     //function to display edit form and delete confirmation
     function toggle(e){
         e.target.name === 'edit' ? setEdit(prev=>(!prev)) : setRemove(prev=>(!prev))
@@ -59,6 +59,7 @@ function DetailPage(props){
         if(type){
             editPost(postOrQuestion._id, edits)
         }else{
+            console.log(postOrQuestion, edits)
             editQuestion(postOrQuestion._id, edits)
         }
         setEdit(false)
@@ -103,7 +104,7 @@ function DetailPage(props){
                     <h1 className = 'title'>{postOrQuestion.title}</h1>
                     <h3 className = 'author'>written by :{postOrQuestion.user.username}</h3>
                     <h3 className = 'descrip'>{postOrQuestion.description}</h3>
-                    <h3>Current Vote : {postOrQuestion.vote.vote}</h3>
+                    <h3 className = 'vote'>Current Vote : {postOrQuestion.vote.vote}</h3>
                 </div>
                  :
                 <div className = 'questionPage'>
@@ -112,6 +113,7 @@ function DetailPage(props){
                     <h3 className = 'descrip'>{postOrQuestion.description}</h3>
                 </div>
             }
+            <hr/>
             </div>
             <ResponseSection responseOwner = {postOrQuestion}/>
         </div>

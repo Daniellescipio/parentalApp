@@ -17,16 +17,15 @@ import ChangeUserInfo from "./userOnly/ChangeUserInfo"
                 <Header/>
                 <Switch>
                     <InteractionProvider>
-                    <UserDataProvider>
-                        <Route exact path = "/">{token? <Redirect to = "/homepage"/>:<Login/>}</Route>
-                        <Route path = "/homepage">{!token? <Redirect to = "/"/>:<HomePage/>}</Route>
-                        <Route path = "/adviceBoard"><AdviceBoard/></Route>
-                        <Route path = "/postpage/:postId"><PostPage/></Route>
-                        <Route path = "/questionpage/:questionId"><QuestionPage/></Route>
-                        <Route path = "/changecredentials"><ChangeUserInfo/></Route>         
-                    </UserDataProvider>
+                        <UserDataProvider>
+                            <Route exact path = "/">{token? <Redirect to = "/homepage"/>:<Login/>}</Route>
+                            <Route path = "/homepage">{!token? <Redirect to = "/"/>:<HomePage/>}</Route>
+                            <Route path = "/adviceBoard"><AdviceBoard/></Route>
+                            <Route path = "/postpage/:postId"><PostPage/></Route>
+                            <Route path = "/questionpage/:questionId"><QuestionPage/></Route>
+                            <Route path = "/changecredentials"><ChangeUserInfo/></Route>         
+                        </UserDataProvider>
                     </InteractionProvider>
-                    
                 </Switch>      
             </div>
         )

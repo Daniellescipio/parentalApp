@@ -257,15 +257,19 @@ userRouter.delete("/delete",(req,res,next)=>{
 })
 //edit a user
 userRouter.put("/update",(req,res,next)=>{
+    console.log(req.body, '2')
     User.findOneAndUpdate(
         {_id:req.user},
         req.body,
-        {new:true},
-        (err,updatedUser)=>{
+        {new:true})
+        .populate('posts')
+        .populate('questions')
+        .exec((err,updatedUser)=>{
             if(err){
                 res.status(500)
                 return next(err)
             }
+            console.log(updatedUser, '2')
             res.status(200).send(updatedUser)
         }
     )

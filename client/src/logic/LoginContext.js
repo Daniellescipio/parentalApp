@@ -14,6 +14,7 @@ function LoginProvider(props){
              user:JSON.parse(localStorage.getItem('user'))||{}
         }
     )
+    const [users, setUsers]= useState([])
 
     function getIn(getInMethod, credentials){
         axios.post(`/auth/${getInMethod}`, credentials)
@@ -26,6 +27,10 @@ function LoginProvider(props){
             })
         })
         .catch(err=>console.log(err.response.data.errMessage))
+    }
+    function getAllUsers(){
+        userAxios(`parental/users`)
+        .then(response=>setUsers(response.data))
     }
     function editUser(edits){
         userAxios.put(`/parental/users/update/`, edits)
@@ -44,7 +49,7 @@ function LoginProvider(props){
 
  
     return(
-        <LoginContext.Provider value={{...userInfo, getIn, logout, editUser}}>
+        <LoginContext.Provider value={{...userInfo, users, getAllUsers, getIn, logout, editUser}}>
             {props.children}
         </LoginContext.Provider>
     )
